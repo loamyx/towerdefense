@@ -63,6 +63,21 @@
       #gold { color: #ffd700; border-color: rgba(255,215,0,0.4) !important; }
       #lives { color: #ff6b6b; border-color: rgba(255,107,107,0.4) !important; }
       #wave { color: #4ecdc4; border-color: rgba(78,205,196,0.4) !important; }
+      #menu-btn {
+        background: linear-gradient(180deg, rgba(60,60,80,0.8) 0%, rgba(40,40,60,0.9) 100%);
+        border: 2px solid rgba(255,255,255,0.3);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-family: 'Orbitron', sans-serif;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      #menu-btn:hover {
+        border-color: #4ecdc4;
+        transform: scale(1.05);
+      }
 
       /* Tower Menu */
       #tower-menu {
@@ -254,6 +269,85 @@
         border-color: #4ecdc4;
         transform: scale(1.05);
       }
+
+      /* Level Select */
+      #level-select {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(180deg, rgba(10,10,30,0.95) 0%, rgba(20,20,50,0.98) 100%);
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 30px;
+      }
+      #level-select.visible {
+        display: flex;
+      }
+      #level-select h1 {
+        font-size: 48px;
+        color: #4ecdc4;
+        text-shadow: 0 0 30px rgba(78,205,196,0.5);
+        margin-bottom: 10px;
+      }
+      #level-select h2 {
+        font-size: 18px;
+        color: #888;
+        margin-bottom: 20px;
+      }
+      #level-buttons {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+        max-width: 800px;
+      }
+      .level-btn {
+        width: 140px;
+        padding: 20px;
+        border: 2px solid rgba(255,255,255,0.2);
+        border-radius: 16px;
+        background: linear-gradient(180deg, rgba(40,40,60,0.8) 0%, rgba(30,30,50,0.9) 100%);
+        color: white;
+        font-family: 'Orbitron', sans-serif;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
+      }
+      .level-btn:hover:not(.locked) {
+        border-color: #4ecdc4;
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(78,205,196,0.3);
+      }
+      .level-btn.completed {
+        border-color: rgba(100,255,150,0.5);
+        background: linear-gradient(180deg, rgba(30,60,40,0.8) 0%, rgba(20,50,30,0.9) 100%);
+      }
+      .level-btn.locked {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+      .level-btn .level-num {
+        font-size: 32px;
+        font-weight: bold;
+        color: #4ecdc4;
+        margin-bottom: 8px;
+      }
+      .level-btn .level-name {
+        font-size: 12px;
+        margin-bottom: 8px;
+        color: #fff;
+      }
+      .level-btn .level-info {
+        font-size: 10px;
+        color: #888;
+      }
+      .level-btn.completed .level-info {
+        color: #6f6;
+      }
     </style>
   </head>
   <body>
@@ -263,6 +357,7 @@
         <div id="gold"><span>Gold</span>200</div>
         <div id="lives"><span>Lives</span>20</div>
         <div id="wave"><span>Wave</span>1</div>
+        <button id="menu-btn" onclick="showLevelSelect()">Menu</button>
       </div>
 
       <div id="instructions">Select a tower below, then click on any grass tile to place it</div>
@@ -311,6 +406,14 @@
         <h2>PAUSED</h2>
         <button id="resume-btn">Resume</button>
         <button id="restart-btn">Restart Level</button>
+        <button onclick="showLevelSelect()">Level Select</button>
+      </div>
+
+      <!-- Level Select -->
+      <div id="level-select">
+        <h1>TOWER DEFENSE</h1>
+        <h2>Select a Level</h2>
+        <div id="level-buttons"></div>
       </div>
     </div>
     <script type="module" src="/src/main.ts"></script>

@@ -770,24 +770,27 @@ export class Game {
 
   gameOver() {
     this.isRunning = false;
-    alert('Game Over!');
+    // Save highest wave reached even on game over
+    const currentLevel = this.currentLevelData?.name ?? 'Level 1';
+    this.saveProgress(currentLevel, false);
+    alert(`Game Over! You reached wave ${this.wave}.`);
   }
 
   victory() {
     this.isRunning = false;
     const currentLevel = this.currentLevelData?.name ?? 'Level 1';
-    this.saveProgress(currentLevel);
+    this.saveProgress(currentLevel, true);
     alert(`Victory! You completed ${currentLevel}!`);
   }
 
   // Save/Load progress
-  saveProgress(levelCompleted: string) {
+  saveProgress(levelName: string, completed: boolean = false) {
     const saved = this.loadSavedProgress();
-    if (!saved.completedLevels.includes(levelCompleted)) {
-      saved.completedLevels.push(levelCompleted);
+    if (completed && !saved.completedLevels.includes(levelName)) {
+      saved.completedLevels.push(levelName);
     }
-    if (this.wave > (saved.highestWave[levelCompleted] ?? 0)) {
-      saved.highestWave[levelCompleted] = this.wave;
+    if (this.wave > (saved.highestWave[levelName] ?? 0)) {
+      saved.highestWave[levelName] = this.wave;
     }
     localStorage.setItem('towerDefenseSave', JSON.stringify(saved));
   }
